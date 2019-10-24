@@ -12,16 +12,19 @@ browser.runtime.onMessage.addListener(function (message) {
 });
 
 var repo = helpers.ghConvert(window.location.href).repo
+var url = window.location.href
 
-$(document).on('click', "a[href$='"+repo+"/issues']", function(e) {
-    e.preventDefault()
+if(url.toLowerCase().endsWith("/issues") || url.toLowerCase().endsWith("/issues/"))
+{
+    redirectToIssueUrl()
+}
 
-    var href = $(this).attr("href")
-
+function redirectToIssueUrl()
+{
     browser.storage.local.get(repo).then((item) => {
         if(item[repo])
         {
-            window.location.href = href + "?q=" + item[repo]
+            window.location.href = "https://github.com/" + repo + "/issues?q="+ item[repo]
         }
         else
         {
@@ -30,4 +33,9 @@ $(document).on('click', "a[href$='"+repo+"/issues']", function(e) {
     }).catch(() => {
         window.location.href = href
     })
+}
+
+$(document).on('click', "a[href$='"+repo+"/issues']", function(e) {
+    e.preventDefault()
+    redirectToIssueUrl()
 })
