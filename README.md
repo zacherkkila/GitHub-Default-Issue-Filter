@@ -9,7 +9,7 @@ This isn't published so you need to install in dev mode
  - Open Chrome and type chrome://extensions/ in url bar
  - Toggle on "Developer Mode" in the top right
  - Click "Load Unpacked" in the top left
- - Choose the entire extraceted directory
+ - Choose the entire extracted directory
  - Note you will need to refresh any open GitHub tabs before setting will work correctly
 
 **To install on Firefox**
