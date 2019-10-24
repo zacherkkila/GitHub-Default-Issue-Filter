@@ -1,41 +1,43 @@
-import helpers from '../helpers/helpers'
-import $ from "jquery";
+import helpers from '../helpers/helpers';
+import $ from 'jquery';
+import * as browser from 'webextension-polyfill';
 
 console.log('Content scripts has loaded');
 
 browser.runtime.onMessage.addListener(function (message) {
-    if(message.filter)
-    {
-        var repo = helpers.getRepoFromUrl(window.location.href)
-        window.location.href = "https://github.com/" + repo + "/issues?q="+message.filter
-    }
+  if(message.filter)
+  {
+    var repo = helpers.getRepoFromUrl(window.location.href);
+    window.location.href = 'https://github.com/' + repo + '/issues?q='+message.filter;
+  }
 });
 
-var repo = helpers.ghConvert(window.location.href).repo
-var url = window.location.href
+var repo = helpers.ghConvert(window.location.href).repo;
+var url = window.location.href;
 
-if(url.toLowerCase().endsWith("/issues") || url.toLowerCase().endsWith("/issues/"))
+if(url.toLowerCase().endsWith('/issues') || url.toLowerCase().endsWith('/issues/'))
 {
-    redirectToIssueUrl()
+  redirectToIssueUrl(false);
 }
 
-function redirectToIssueUrl()
+function redirectToIssueUrl(needsRedirect)
 {
-    browser.storage.local.get(repo).then((item) => {
-        if(item[repo])
-        {
-            window.location.href = "https://github.com/" + repo + "/issues?q="+ item[repo]
-        }
-        else
-        {
-            window.location.href = href
-        }
-    }).catch(() => {
-        window.location.href = href
-    })
+  var issueUrl = 'https://github.com/' + repo + '/issues';
+  browser.storage.local.get(repo).then((item) => {
+    if(item[repo])
+    {
+      window.location.href = issueUrl + '?q='+ item[repo];
+    }
+    else
+    {
+      needsRedirect && (window.location.href = issueUrl);
+    }
+  }).catch(() => {
+    needsRedirect && (window.location.href = issueUrl);
+  });
 }
 
-$(document).on('click', "a[href$='"+repo+"/issues']", function(e) {
-    e.preventDefault()
-    redirectToIssueUrl()
-})
+$(document).on('click', 'a[href$=\''+repo+'/issues\']', function(e) {
+  e.preventDefault();
+  redirectToIssueUrl(true);
+});

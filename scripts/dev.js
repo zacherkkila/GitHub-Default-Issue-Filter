@@ -9,7 +9,6 @@ const chalk = require('chalk');
 const webpack = require('webpack');
 const argv = require('yargs').argv;
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
-const printBuildError = require('react-dev-utils/printBuildError');
 
 require('colors');
 
@@ -96,12 +95,6 @@ compiler.watch({}, (err, stats) => {
   }
 
 });
-/* } catch (err) {
-  console.log(chalk.red('Failed to compile.\n'));
-  console.log(err.message);
-  printBuildError(err);
-  process.exit(1);
-} */
 
 
 

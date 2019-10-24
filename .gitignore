@@ -5,3 +5,4 @@ dist
 extension
 dev
 .vscode
+.DS_Store

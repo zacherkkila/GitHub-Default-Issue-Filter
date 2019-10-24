@@ -1,42 +1,42 @@
 import React from 'react';
 import './Popup.css';
 import * as browser from 'webextension-polyfill';
-import helpers from '../helpers/helpers'
+import helpers from '../helpers/helpers';
 
-const Popup = (props) => {
-  const [filter, setFilter] = React.useState("is:issue is:open")
-  const [loading, setLoading] = React.useState(true)
-  const [repo, setRepo] = React.useState("")
+const Popup = () => {
+  const [filter, setFilter] = React.useState('is:issue is:open');
+  const [loading, setLoading] = React.useState(true);
+  const [repo, setRepo] = React.useState('');
 
   React.useEffect(() => {
     helpers.getCurrentTab().then(tab => {
-      var _repo = helpers.getRepoFromUrl(tab.url)
+      var _repo = helpers.getRepoFromUrl(tab.url);
       browser.storage.local.get(_repo).then((item) => {
         if(item[_repo])
         {
-          setFilter(decodeURIComponent(item[_repo]))
+          setFilter(decodeURIComponent(item[_repo]));
         }
-        setRepo(_repo)
-        setLoading(false)
+        setRepo(_repo);
+        setLoading(false);
       }).catch(() => {
-        setLoading(false)
-        setFilter("is:issue is:open")
-      })
-    })
-  }, [])
+        setLoading(false);
+        setFilter('is:issue is:open');
+      });
+    });
+  }, []);
 
   const onSave = () => {
     helpers.getCurrentTab().then((tab) => {
-        var _repo = helpers.getRepoFromUrl(tab.url)
-        var uriFilter = encodeURIComponent(filter)
-        browser.storage.local.set({[_repo]:uriFilter})
-        browser.tabs.sendMessage(tab.id, { filter: uriFilter });
-    }).catch(err => console.log(err))
-  }
+      var _repo = helpers.getRepoFromUrl(tab.url);
+      var uriFilter = encodeURIComponent(filter);
+      browser.storage.local.set({[_repo]:uriFilter});
+      browser.tabs.sendMessage(tab.id, { filter: uriFilter });
+    }).catch(err => console.log(err));
+  };
 
   if(loading)
   {
-    return <div className="popup"><br />Loading...</div>
+    return <div className="popup"><br />Loading...</div>;
   }
 
   return (
@@ -50,7 +50,7 @@ const Popup = (props) => {
         </div>
       ) : (
         <div>
-          <div className="text" style={{width:"240px"}}><i>Current window/tab isn't a GitHub repo, open a GitHub repo in your browser to set the default issue filter</i></div>
+          <div className="text" style={{width:'240px'}}><i>Current window/tab isn't a GitHub repo, open a GitHub repo in your browser to set the default issue filter</i></div>
         </div>
       )}
     </div>
