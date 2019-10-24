@@ -50,7 +50,7 @@ const Popup = () => {
         </div>
       ) : (
         <div>
-          <div className="text" style={{width:'240px'}}><i>Current window/tab isn't a GitHub repo, open a GitHub repo in your browser to set the default issue filter</i></div>
+          <div className="text"><i>Current window/tab isn't a GitHub repo, open a GitHub repo in your browser to set the default issue filter</i></div>
         </div>
       )}
     </div>
