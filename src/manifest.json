@@ -1,8 +1,8 @@
 {
-  "version": "1.0",
+  "version": "0.0.1",
   "manifest_version": 2,
-  "name": "React Boilerplate Extension",
-  "description": "Modern React boilerplate for Firefox and Chrome extensions.",
+  "name": "GitHub Default Issue Filter",
+  "description": "Allows setting a default filter for GitHub issues.",
   "content_scripts": [
     {
       "matches": [
@@ -25,18 +25,14 @@
     "default_popup": "popup.html"
   },
   "permissions": [
-    "http://myapi.com",
     "storage",
-    "unlimitedStorage"
+    "unlimitedStorage",
+    "tabs"
   ],
   "icons": {
     "128": "img/icon.png"
   },
   "web_accessible_resources": [
     "sidebar.html"
-  ],
-  "options_ui": {
-    "page": "./options.html",
-    "open_in_tab": true
-  }
+  ]
 }

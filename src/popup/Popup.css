@@ -1,55 +1,46 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
+
 .popup {
-  text-align: center;
-  width: 800px;
+  font-family: Roboto;
+  padding-left:20px;
+  padding-right:20px;
+  padding-bottom:20px;
 }
 
-.popup-greet {
-  color: #80FFAB;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 2em;
-  font-style: italic;
-  letter-spacing: 0.1em;
-  font-family: "Noto Sans", sans-serif;
-  margin-top: 2em;
-  padding: 0 0.8em 0.1em 0.8em;
+.popup h3 {
+  font-weight:300;
+  border-bottom:1px solid #eee;
+  padding-bottom:7px;
+  margin-bottom:7px;
 }
 
-.brand {
-  font-family: 'Roboto Mono', monospace;
-  letter-spacing: 0em;
-  font-style: normal;
-  font-weight: 600;
+.popup button {
+  padding:5px 10px;
+  font-size:16px;
+  background:rgb(30, 99, 145);
+  color:#fff;
+  border:0;
+  border-radius: 5px;
+  margin-top:10px;
 }
 
-.stack-head {
-  color: #ffffff;
-  font-family: 'Roboto Mono', monospace;
-  /* font-weight: 700; */
-  font-size: 2em;
+.popup button:hover {
+  background:rgb(46, 120, 170);
 }
 
-.tech-logos {
-  padding: 0 2em 2em 2em;
+.popup .text {
+  font-size:14px;
+  line-height:1.5;
+  color:#555;
 }
 
-.logo {
-  height: 40px;
-  padding-right: 1.8em;
+.popup input[type="text"] {
+  width:90%;
+  padding:5%;
+  font-size:14px;
+  border-radius: 3px;
+  border:1px solid #ccc;
+  margin-top:5px;
 }
 
-.contrib-msg {
-  color: #ffffff;
-  font-family: 'Roboto Mono', monospace;
-  /* font-weight: 700; */
-  font-size: 1.5em;
-  margin: 2em 2em 3em 2em;
-}
-
-.contrib-msg a {
-  color: #0055ff;
-  font-weight: bold;
-}
 

@@ -1,24 +1,58 @@
 import React from 'react';
 import './Popup.css';
+import * as browser from 'webextension-polyfill';
+import helpers from '../helpers/helpers'
 
-const TechStackLogos = () => {
-  return (
-    <div className="tech-logos">
-      <img className="logo" src="/img/react.svg" alt="ReactJS logo" title="ReactJS" />
-      <img className="logo" src="/img/webpack.svg" alt="Webpack logo" title="Webpack" />
-      <img className="logo" src="/img/eslint.svg" alt="ESLint logo" title="ESLint" />
-      <img className="logo" src="/img/jest.svg" alt="Jest logo" title="Jest" />
-    </div>
-  );
-};
+const Popup = (props) => {
+  const [filter, setFilter] = React.useState("is:issue is:open")
+  const [loading, setLoading] = React.useState(true)
+  const [repo, setRepo] = React.useState("")
 
-const Popup = () => {
+  React.useEffect(() => {
+    helpers.getCurrentTab().then(tab => {
+      var _repo = helpers.getRepoFromUrl(tab.url)
+      browser.storage.local.get(_repo).then((item) => {
+        if(item[_repo])
+        {
+          setFilter(decodeURIComponent(item[_repo]))
+        }
+        setRepo(_repo)
+        setLoading(false)
+      }).catch(() => {
+        setLoading(false)
+        setFilter("is:issue is:open")
+      })
+    })
+  }, [])
+
+  const onSave = () => {
+    helpers.getCurrentTab().then((tab) => {
+        var _repo = helpers.getRepoFromUrl(tab.url)
+        var uriFilter = encodeURIComponent(filter)
+        browser.storage.local.set({[_repo]:uriFilter})
+        browser.tabs.sendMessage(tab.id, { filter: uriFilter });
+    }).catch(err => console.log(err))
+  }
+
+  if(loading)
+  {
+    return <div className="popup"><br />Loading...</div>
+  }
+
   return (
     <div className="popup">
-      <p className="popup-greet">Thanks for using <span className="brand">Modern extension Boilerplate</span></p>
-      <p className="stack-head">Made using :</p>
-      <TechStackLogos />
-      <p className="contrib-msg">We would love some of your help in making this boilerplate even better. <br /><a href="https://www.github.com/kryptokinght/react-extension-boilerplate" target="_blank">React Extension Boilerplate</a></p>
+      <h3>GitHub Default Issue Filter</h3>
+      {repo ? (
+        <div>
+          <div className="text">Set default issue filter for<br /><b>{repo}</b></div>
+          <input type="text" value={filter} onChange={(ev)=>setFilter(ev.target.value)} /><br />
+          <button onClick={onSave}>Save Filter</button>
+        </div>
+      ) : (
+        <div>
+          <div className="text" style={{width:"240px"}}><i>Current window/tab isn't a GitHub repo, open a GitHub repo in your browser to set the default issue filter</i></div>
+        </div>
+      )}
     </div>
   );
 };
